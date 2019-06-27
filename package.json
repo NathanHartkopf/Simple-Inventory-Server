@@ -1,0 +1,21 @@
+{
+  "name": "inventory_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/ws": "^6.0.1",
+    "create-react-app": "^3.0.1",
+    "types": "^0.1.1",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "mysql": "^2.17.1",
+    "ws": "^7.0.1"
+  }
+}
