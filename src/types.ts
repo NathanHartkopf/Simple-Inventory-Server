@@ -5,7 +5,7 @@ type Dimensions = {
     unit: Unit
 }
 
-enum Unit {
+export enum Unit {
     millimeter,
     meter,
     inch,
@@ -13,35 +13,35 @@ enum Unit {
     mile
 }
 
-enum COMMANDTYPE {
+export enum COMMANDTYPE {
     createItem,
     getItem,
     updateItem,
     deleteItem
 }
 
-enum ITEM_TYPE {
+export enum ITEM_TYPE {
     inventory,
     tool
 }
 
-interface COMMAND {
+export interface COMMAND {
     type: COMMANDTYPE
 }
 
-interface CREATE_ITEM extends COMMAND {
+export interface CREATE_ITEM extends COMMAND {
     type: COMMANDTYPE.createItem
-    create: ITEM
+    item: ITEM
 }
 
-interface GET_ITEM extends COMMAND {
+export interface GET_ITEM extends COMMAND {
     type: COMMANDTYPE.getItem
     id: number
 }
 
-interface UPDATE_ITEM extends COMMAND {
+export interface UPDATE_ITEM extends COMMAND {
     type: COMMANDTYPE.updateItem
-    update: ITEM
+    item: ITEM
 }
 
 type Cost = {
@@ -49,11 +49,24 @@ type Cost = {
 }
 
 export type ITEM = {
-    ID: number
+    ID?: number
     type: ITEM_TYPE
     title: string
     description: string
     count: number
     dimensions: Dimensions
     cost: Cost
+    icon: string
+}
+
+export function isItem(thing: any): thing is ITEM {
+    return (
+        thing.hasOwnProperty("type") &&
+        thing.hasOwnProperty("title") &&
+        thing.hasOwnProperty("description") &&
+        thing.hasOwnProperty("count") &&
+        thing.hasOwnProperty("dimensions") &&
+        thing.hasOwnProperty("cost") &&
+        thing.hasOwnProperty("icon")
+    )
 }

@@ -1,6 +1,4 @@
-import {
-    ITEM
-} from './types';
+import { ITEM } from './types';
 const mysql = require('mysql')
 
 export default class Database {
@@ -25,36 +23,63 @@ export default class Database {
             })
         })
     }
-    //Create Inventory item
-        //TODO
+    //Create item
+    public async createItem(item: ITEM) {
+        let { type, title, description, count, dimensions, cost} = item
+        let query = `INSERT INTO \`inventory\` (type, title, description, count, dimensions, cost) VALUES ('${type}', '${title}', '${description}', '${count}', '${JSON.stringify(dimensions)}', '${JSON.stringify(cost)}')`
 
-    //Get Inventory Item
-    public async getInventoryItem(id: number): Promise<any> {
+        return new Promise(res => {
+            this.dbClient.query(query, (err: Error, result: any, fields : any) => {
+                if (err) throw(err)
+                console.log("Created Item. ID:", result.insertId)
+                res(result.insertId)
+            })
+        })
+
+    }
+
+    //Get Item
+    public async getItem(id: number): Promise<ITEM[]> {
         let query = ""
         if (id == 0) {
-            console.log("all")
             query = `SELECT * from \`inventory\``
         } else {
-            console.log("select")
             query = `SELECT * from \`inventory\` WHERE \`ID\` = "${id}"`
         }
 
         return new Promise(res => {
-            this.dbClient.query(query, (err: Error, results: ITEM[]) => {
+            this.dbClient.query(query, (err: Error, result: ITEM[]) => {
                 if (err) throw (err)
-                if (results.length == 0) {
+                if (result.length == 0) {
                     res([])
                 } else {
-                    res(results)
+                    res(result)
                 }
             })
         })
     }
 
-    //Update Inventory Item
-        //TODO
+    //Update Item
+    public async updateItem (item: ITEM): Promise<any> {
+        return new Promise(res => {
+            let { ID, type, title, description, count, dimensions, cost, icon } = item
+            let query = `UPDATE \`inventory\` SET type="${type}", title="${title}", description="${description}", count="${count}", dimensions="${dimensions}", cost="${cost}", icon="${icon}" WHERE id="${ID}"`
+            this.dbClient.query(query, (err: Error, result: any) => {
+                console.log(result)
+                res(result)
+            })
+        })
+    }
 
-    //Delete Inventory Item
-        //TODO
+    //Delete Item
+    public async deleteItem (id: number): Promise<number> {
+        return new Promise(res => {
+            let query = `DELETE from \`inventory\` WHERE \`ID\` = "${id}"`
+            this.dbClient.query(query, (err: Error, result: any) => {
+                console.log(result)
+                res(result)
+            })
 
+        })
+    }
 }

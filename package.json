@@ -4,17 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "serve": "authbind --deep node-dev dist/Server.js",
+    "guard": "ts-auto-guard src/types.ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@dollarshaveclub/runtype": "^1.1.0",
     "@types/ws": "^6.0.1",
     "create-react-app": "^3.0.1",
+    "node-dev": "^4.0.0",
+    "ts-auto-guard": "^1.0.0-alpha.1",
     "types": "^0.1.1",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.3"
   },
   "dependencies": {
+    "@types/cors": "^2.8.5",
+    "@types/express": "^4.17.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "mysql": "^2.17.1",
     "ws": "^7.0.1"
   }

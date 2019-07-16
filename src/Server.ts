@@ -1,24 +1,14 @@
-import Database from './Database';
-import ws from 'ws'
-const DB = new Database()
-const WSPORT = 1337
+import express from 'express'
+import cors from 'cors'
+import bodyParser from 'body-parser'
+const app = express()
+const port = 80
 
-class App {
-    private wsServer: ws.Server | undefined = undefined
-    constructor() {
-        DB.setup()
-        .then(this.setupWebsocketServer.bind(this))
-    }
-    private setupWebsocketServer() {
-        let { wsServer = new ws.Server({ port: WSPORT }) } = this
+import itemRoutes from './api/routes/item'
 
-        wsServer.on('error', e => console.log("DEBUG 1", e))
-        wsServer.on('connection', client => this.connectionHandler(client))
-    }
+app.use(bodyParser.json())
+app.use(cors())
 
-    private connectionHandler(client: ws) {
-        console.log("Client Connection")
-    }
-}
+itemRoutes(app)
 
-new App()
+app.listen(port)
